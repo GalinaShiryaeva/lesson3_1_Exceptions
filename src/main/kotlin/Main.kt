@@ -1,5 +1,5 @@
 fun main() {
-    var id: Long = 0
+    var id: Int = 0
     var attachmentId: Int = 0
 
     // заполняем массив
@@ -23,4 +23,6 @@ fun main() {
     val somePost2 = WallService.add(Post(++id, arrayOfAttachments2))
 
     WallService.printPosts()
+
+    println(WallService.createComment(Comment(0, 3, 20)))
 }

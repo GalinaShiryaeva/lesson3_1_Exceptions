@@ -4,28 +4,41 @@ object WallService {
 
     @Throws(PostNotFoundException::class)
     fun createComment(comment: Comment): Boolean {
+        var counter: Int = 0
         for (post in posts) {
             if (post.id == comment.postId) {
                 comments += comment
+                counter++
                 return true
-            } else {
-                throw PostNotFoundException("Пост не найден!")
             }
+        }
+        if (counter == 0) {
+            throw PostNotFoundException("пост не найден!")
         }
         return false
     }
 
-    fun findPostById(id: UInt): Post? {
+    //    fun findPostById(id: Int): Post? {
+//        if (posts.isNotEmpty()) {
+//            for (post in posts) {
+//                if (post.id == id) {
+//                    return post
+//                }
+//            }
+//        }
+//        return null.also{
+//            println("Пост не найден")
+//        }
+//    }
+    fun findPostById(id: Int): Boolean {
         if (posts.isNotEmpty()) {
             for (post in posts) {
                 if (post.id == id) {
-                    return post
+                    return true
                 }
             }
         }
-        return null.also{
-            println("Пост не найден")
-        }
+        return false
     }
 
     fun add(post: Post): Post {

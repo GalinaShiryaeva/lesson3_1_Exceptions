@@ -1,5 +1,5 @@
 data class Post(
-    var id: UInt,
+    var id: Int,
     var owner_id: Int = 0,
     var from_id: Int = 0,
     var created_by: Int = 0,
@@ -8,7 +8,7 @@ data class Post(
     var reply_owner_id: Int = 0,
     var reply_post_id: Int = 0,
     var friends_only: Boolean = true,
-    var comments: Comments = Comments(),
+    var comments: Comments? = null,
     var copyright: Copyright = Copyright(),
     var likes: Likes = Likes(),
     var reposts: Reposts = Reposts(),
@@ -28,7 +28,7 @@ data class Post(
     var donut: Donut = Donut(),
     var postponed_id: Int = 0
 ) {
-    constructor(id: UInt, attachments: Array<Attachment>?) : this(id)
+    constructor(id: Int, attachments: Array<Attachment>?) : this(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

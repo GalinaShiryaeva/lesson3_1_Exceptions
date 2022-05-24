@@ -1,7 +1,7 @@
 data class Comment(
     val commentId: Int = 0,
     val ownerId: Int = 3,
-    val postId: UInt = 3u,
+    val postId: Int,
     val fromGroup: UInt = 0u,
     val message: String = "",
     val replyToComment: Int? = 0,
