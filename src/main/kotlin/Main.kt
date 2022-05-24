@@ -24,5 +24,7 @@ fun main() {
 
     WallService.printPosts()
 
-    println(WallService.createComment(Comment(0, 3, 20)))
+    WallService.createComment(Comment(0, 2, 4))
+
+    WallService.reportComment(2,0, 2)
 }

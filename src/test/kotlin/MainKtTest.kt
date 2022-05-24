@@ -23,4 +23,34 @@ class MainKtTest {
         // assert
         assertTrue("Несуществующий id поста!", comment1)
     }
+
+    @Test(expected = CommentNotFoundException::class)
+    fun reportComment_Exception_WrongOwnerId() {
+        // arrange
+        WallService.add(Post(26))
+        WallService.createComment(Comment(23, 21, 26))
+
+        // act
+        WallService.reportComment(20, 23, 3)
+    }
+
+    @Test(expected = CommentNotFoundException::class)
+    fun reportComment_Exception_WrongCommentId() {
+        // arrange
+        WallService.add(Post(26))
+        WallService.createComment(Comment(23, 21, 26))
+
+        // act
+        WallService.reportComment(21, 20, 3)
+    }
+
+    @Test(expected = CommentNotFoundException::class)
+    fun reportComment_Exception_InvalidReason() {
+        // arrange
+        WallService.add(Post(26))
+        WallService.createComment(Comment(23, 21, 26))
+
+        // act
+        WallService.reportComment(21, 23, 9)
+    }
 }

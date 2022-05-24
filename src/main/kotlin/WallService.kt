@@ -1,36 +1,61 @@
 object WallService {
     private var posts = emptyArray<Post>()
     private var comments = emptyArray<Comment>()
+    private var reportComments = emptyArray<Report>()
 
     @Throws(PostNotFoundException::class)
     fun createComment(comment: Comment): Boolean {
-        var counter: Int = 0
+        var isPresentPost = false
         for (post in posts) {
             if (post.id == comment.postId) {
                 comments += comment
-                counter++
-                return true
+                isPresentPost = true
             }
         }
-        if (counter == 0) {
-            throw PostNotFoundException("пост не найден!")
+        if (!isPresentPost) {
+            throw PostNotFoundException("Пост не найден")
+        }
+        return isPresentPost
+    }
+
+    fun reportComment(ownerId: Int, commentId: Int, reason: Int): Boolean {
+        var isPresentReason = false
+        var reasonText = ""
+        for (rsn in ReportReason.values()) {
+            if (rsn.reason == reason) {
+                isPresentReason = true
+                reasonText = rsn.getReason()
+            }
+        }
+        if (!isPresentReason) {
+            throw CommentNotFoundException("Несуществующая причина жалобы")
+        }
+        for (comment in comments) {
+            if (comment.commentId == commentId) {
+                if (comment.ownerId == ownerId) {
+                    reportComments += Report(ownerId, commentId, reason)
+                    println("Комментарий [id = $commentId, ownerId = $ownerId] получил жалобу по причине '$reasonText'")
+                    return true
+                } else throw CommentNotFoundException("Комментарий с данным 'ownerId' не найден")
+            } else throw CommentNotFoundException("Комментарий с данным 'commentId' не найден")
         }
         return false
     }
 
-    //    fun findPostById(id: Int): Post? {
-//        if (posts.isNotEmpty()) {
-//            for (post in posts) {
-//                if (post.id == id) {
-//                    return post
-//                }
-//            }
-//        }
-//        return null.also{
-//            println("Пост не найден")
-//        }
-//    }
-    fun findPostById(id: Int): Boolean {
+    fun findPostById(id: Int): Post? {
+        if (posts.isNotEmpty()) {
+            for (post in posts) {
+                if (post.id == id) {
+                    return post
+                }
+            }
+        }
+        return null.also {
+            println("Пост не найден")
+        }
+    }
+
+    fun isFoundPostById(id: Int): Boolean {
         if (posts.isNotEmpty()) {
             for (post in posts) {
                 if (post.id == id) {
@@ -63,4 +88,6 @@ object WallService {
             println(post)
         }
     }
+
+
 }
